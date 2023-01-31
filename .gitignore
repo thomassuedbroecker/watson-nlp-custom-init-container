@@ -1,0 +1,9 @@
+.DS_Store
+backup.txt
+code/models/emsemble_model
+code/models/custom_model
+code/models/client-env
+code/model-manifest.csv
+code/helm_setup/custom_config.json
+code/helm_setup/charts/watson-nlp-custom/values.yaml
+code/helm_setup/.env

@@ -1,0 +1,5 @@
+# container registery access
+ibm_entitlement_secret: "IBM_ENTITLEMENT_SECRET"
+watson_runtime_image: "cp.icr.io/cp/ai/watson-nlp-runtime:1.0.20"
+watson_nlp_custom_model: "CUSTOM_MODEL"
+default_namespace: "default"
