@@ -10,7 +10,7 @@ export CE_PROJECT_NAME="custom-watson-nlp-tsued"
 export WATSON_NLP_CONTAINER=watson-nlp-custom
 
 ######### custom model Watson NLP image ##############
-CUSTOM_WATSON_NLP_IMAGE_NAME=watson-nlp_custom_model
+CUSTOM_WATSON_NLP_IMAGE_NAME=watson-nlp_ensemble_model
 CUSTOM_TAG=1.0.0
 
 ######### IBM Cloud Container registry for custom image ##############
@@ -310,9 +310,9 @@ function verifyPod () {
 
 loginIBMCloud
 
-# configureIBMCloudRegistry
+configureIBMCloudRegistry
 
-# uploadCustomImageToIBMCloudRegistry
+uploadCustomImageToIBMCloudRegistry
 
 createDockerCustomConfigFile
 

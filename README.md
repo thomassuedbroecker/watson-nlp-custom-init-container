@@ -11,7 +11,16 @@ First let us resume how you can add models to `Watson NLP for Embed` runtime con
 3. Serve the model for [KServe](https://suedbroecker.net/2023/01/17/run-watson-nlp-for-embed-in-a-kserve-modelmesh-serving-environment-on-an-ibm-cloud-kubernetes-cluster-in-a-vpc-environment/)
 4. And, now build a custom model container image!
 
-### Step 1: Prepare python environment on your local machine
+## Create an init container with a custom model 
+
+### Step 1: Clone the repo
+
+```sh
+git clone https://github.com/thomassuedbroecker/watson-nlp-custom-init-container.git
+cd watson-nlp-custom-init-container
+```
+
+### Step 2: Prepare python environment on your local machine
 
 We need a python library manages the process of building a collection of docker images that wrap individual `watson_embedded models` for delivery with an `embeddable watson runtime`.
 
@@ -23,31 +32,41 @@ source client-env/bin/activate
 pip install watson-embed-model-packager
 ```
 
-### Step 2: Download a created model and copy it to the folder `code/models`
+### Step 3: Download a created model and copy it to the folder `code/tmpmodel` 
 
 If you don't have a created model you can create one by following this blog post [`Watson NLP for Embed customize a classification model and use it on your local machine`](https://suedbroecker.net/2023/01/26/watson-nlp-for-embed-customize-a-classification-model-and-use-it-on-your-local-machine/).
 
 ### Step 3: Unzip your custom model
 
 ```sh
-cd code/models
+export TMP_HOME=$(pwd)
 export MODELFILE_NAME=ensemble_model
-mkdir custom_model
-unzip $(pwd)/$MODELFILE_NAME -d $(pwd)/custom_model/
+
+cd code/app/models
+mkdir $MODELFILE_NAME
+
+cd $TMP_HOME/code/tmpmodel
+unzip $MODELFILE_NAME -d $TMP_HOME/code/app/models/ensemble_model/
+cd $TMP_HOME
 ```
 
 ### Step 4: Prepare the custom model container image 
 
 ```sh
-cd ..
-export CUSTOM_MODEL_LOCATION=$(pwd)/models
+export TMP_HOME=$(pwd)
+cd $TMP_HOME/code
+python3 -m venv client-env
+source client-env/bin/activate
+pip install watson-embed-model-packager
+export CUSTOM_MODEL_LOCATION=./app/models
 export CUSTOM_TAG=1.0.0
-python -m watson_embed_model_packager setup \
+python3 -m watson_embed_model_packager setup \
     --library-version watson_nlp:3.2.0 \
     --image-tag 1.0.0 \
     --local-model-dir $CUSTOM_MODEL_LOCATION \
     --output-csv model-manifest.csv
 ls
+cd $TMP_HOME
 ```
 
 * Example output:
@@ -59,7 +78,8 @@ ls
 2023-01-31T12:52:42.623034 [SETUP:INFO] Local Model Dir: /YOUR_PATH/code/models
 2023-01-31T12:52:42.623099 [SETUP:INFO] Module GUIDs: []
 2023-01-31T12:52:42.623150 [SETUP:INFO] Image tag version: 1.0.0
-model-manifest.csv      models
+app                     helm_setup              tmpmodel
+client-env              model-manifest.csv
 ```
 
 ### Step 5: Create the custom model container image 
@@ -67,7 +87,10 @@ model-manifest.csv      models
 Now we build the `custom model container image` by using the `model-manifest.csv`.
 
 ```sh
+export TMP_HOME=$(pwd)
+cd $TMP_HOME/code
 python3 -m watson_embed_model_packager build --config model-manifest.csv
+cd $TMP_HOME
 ```
 
 * Example output:
@@ -78,19 +101,19 @@ python3 -m watson_embed_model_packager build --config model-manifest.csv
 [+] Building 105.4s (21/21) FINISHED                                        
 ...
  => => writing image sha256:4034108815be4eee1a1248e4032e646c136d0e74b  0.0s
- => => naming to docker.io/library/watson-nlp_custom_model:1.0.0       0.0s
+ => => naming to docker.io/library/=> => naming to docker.io/library/watson-nlp_ensemble_model:1.0.0 0.0s
 ```
 
 ### Step 6: Verify the created model container image
 
 ```sh
-docker images | grep watson-nlp_custom_model 
+docker images | grep watson-nlp_ensemble_model 
 ```
 
 * Example output:
 
 ```sh
-watson-nlp_custom_model                                               1.0.0         4034108815be   23 minutes ago   1.3GB
+watson-nlp_ensemble_model                                             1.0.0         dc9d68f955ae   47 seconds ago   1.3GB
 ```
 
 ## Deploy to Kubernetes
@@ -103,7 +126,7 @@ We are using for this section:
 ### Step 1: Navigate to the Helm setup
 
 ```sh
-cd helm_setup
+cd code/helm_setup
 ```
 
 ### Step 2: Set environment variables in the `.env` file
