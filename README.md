@@ -13,6 +13,14 @@ First let us resume how you can add models to `Watson NLP for Embed` runtime con
 
 ## Create an init container with a custom model 
 
+* Step 1: Clone the repo
+* Step 2: Prepare python environment on your local machine
+* Step 3: Download a created model and copy it to the folder `code/tmpmodel` 
+* Step 4: Unzip your custom model
+* Step 5: Prepare the custom model container image
+* Step 6: Create the custom model container image
+* Step 7: Verify the created model container image
+
 ### Step 1: Clone the repo
 
 ```sh
@@ -27,16 +35,30 @@ We need a python library manages the process of building a collection of docker 
 This is implemented in the GitHub project called [`ibm-watson-embed-model-builder`](https://github.com/IBM/ibm-watson-embed-model-builder).
 
 ```sh
+export TMP_HOME=$(pwd)
+cd code
 python3 -m venv client-env
 source client-env/bin/activate
 pip install watson-embed-model-packager
+ls
+cd $TMP_HOME
+```
+
+* Example output:
+
+This will create a folder called `client-env`.
+
+```sh
+...
+app                     helm_setup              tmpmodel
+client-env  
 ```
 
 ### Step 3: Download a created model and copy it to the folder `code/tmpmodel` 
 
 If you don't have a created model you can create one by following this blog post [`Watson NLP for Embed customize a classification model and use it on your local machine`](https://suedbroecker.net/2023/01/26/watson-nlp-for-embed-customize-a-classification-model-and-use-it-on-your-local-machine/).
 
-### Step 3: Unzip your custom model
+### Step 4: Unzip your custom model
 
 ```sh
 export TMP_HOME=$(pwd)
@@ -50,14 +72,13 @@ unzip $MODELFILE_NAME -d $TMP_HOME/code/app/models/ensemble_model/
 cd $TMP_HOME
 ```
 
-### Step 4: Prepare the custom model container image 
+### Step 5: Prepare the custom model container image 
+
+This creates `model-manifest.csv` which contains the information to create the custom model container image.
 
 ```sh
 export TMP_HOME=$(pwd)
 cd $TMP_HOME/code
-python3 -m venv client-env
-source client-env/bin/activate
-pip install watson-embed-model-packager
 export CUSTOM_MODEL_LOCATION=./app/models
 export CUSTOM_TAG=1.0.0
 python3 -m watson_embed_model_packager setup \
@@ -82,7 +103,7 @@ app                     helm_setup              tmpmodel
 client-env              model-manifest.csv
 ```
 
-### Step 5: Create the custom model container image 
+### Step 6: Create the custom model container image 
 
 Now we build the `custom model container image` by using the `model-manifest.csv`.
 
@@ -104,16 +125,56 @@ cd $TMP_HOME
  => => naming to docker.io/library/=> => naming to docker.io/library/watson-nlp_ensemble_model:1.0.0 0.0s
 ```
 
-### Step 6: Verify the created model container image
+### Step 7: Verify the created model container image
+
+Verify the container exists.
 
 ```sh
-docker images | grep watson-nlp_ensemble_model 
+docker images | grep watson-nlp_ensemble_model
 ```
 
 * Example output:
 
 ```sh
 watson-nlp_ensemble_model                                             1.0.0         dc9d68f955ae   47 seconds ago   1.3GB
+```
+
+With `docker inspect` we get the details of the `watson-nlp_ensemble_model` container image.
+
+```sh
+docker inspect watson-nlp_ensemble_model:1.0.0
+```
+
+* Example output:
+
+```sh
+[
+    {
+        "Id": "sha256:dc9d68f955aed57c0724d903412cac2fe9dcbd55aaf261a47c85b65ab6dd3fba",
+        "RepoTags": [
+            "watson-nlp_ensemble_model:1.0.0",
+...
+```
+
+### Step 7: Start the container locally
+
+```sh
+export CONTAINER_NAME=verify-model
+export CONTAINER_IMAGE=watson-nlp_ensemble_model:1.0.0
+docker run -it --name "$CONTAINER_NAME" "$CONTAINER_IMAGE" /bin/bash
+```
+
+* Example output:
+
+```sh
+Archive:  /app/model.zip
+  ...
+  inflating: cnn_model/artifacts/model.h5  
+  inflating: cnn_model/config.yml    
+  inflating: config.yml              
+   creating: ensemble_model/
+  inflating: ensemble_model/config.yml 
+  ... 
 ```
 
 ## Deploy to Kubernetes
