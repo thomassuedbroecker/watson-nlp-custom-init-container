@@ -10,7 +10,9 @@ First let us resume how you can add models to `Watson NLP for Embed` runtime con
 2. [You can run a `Watson NLP for Embed` runtime and reference models from a linked location (load from Docker volumes).](https://suedbroecker.files.wordpress.com/2022/12/watson-nlp-07-1.gif?w=756&zoom=2)
 3. [You can run a `Watson NLP for Embed` runtime and load the models with Init containers](https://suedbroecker.files.wordpress.com/2023/01/watson-nlp-03.png)
 4. Serve the model for [KServe](https://suedbroecker.net/2023/01/17/run-watson-nlp-for-embed-in-a-kserve-modelmesh-serving-environment-on-an-ibm-cloud-kubernetes-cluster-in-a-vpc-environment/) ([Image](https://suedbroecker.files.wordpress.com/2023/01/watson-nlp-kserve-03.gif?w=756&zoom=2))
-5. And, now build a custom model container image!
+
+
+> And now we are going build a `custom model container image` you can use as an init container!
 
 The image below shows the `Architecture reference custom models` for the tutorial [Serve a custom model on a Kubernetes or Red Hat OpenShift cluster](https://developer.ibm.com/developer/default/tutorials/serve-custom-models-on-kubernetes-or-openshift)
 
