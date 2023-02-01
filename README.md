@@ -75,7 +75,7 @@ cd code/app/models
 mkdir $MODELFILE_NAME
 
 cd $TMP_HOME/code/tmpmodel
-unzip $MODELFILE_NAME -d $TMP_HOME/code/app/models/ensemble_model/
+unzip $MODELFILE_NAME -d $TMP_HOME/code/app/models/$MODELFILE_NAME/
 cd $TMP_HOME
 ```
 
