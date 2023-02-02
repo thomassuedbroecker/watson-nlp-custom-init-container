@@ -129,7 +129,7 @@ function verifyWatsonNLPContainer () {
     RESULT=$(kubectl exec --stdin --tty $POD --container $FIND -- curl -X POST "http://localhost:8080/v1/watson.runtime.nlp.v1/NlpService/ClassificationPredict" -H "accept: application/json" -H "grpc-metadata-mm-model-id: ensemble_model" -H "content-type: application/json" -d '{ "rawDocument": { "text": "The credit card does not work, and I look at the savings, but I need more money to spend." }}')
     echo ""
     echo "Result of the Watson NLP API request:"
-    echo "http://localhost:8080/v1/watson.runtime.nlp.v0/NlpService/ClassificationPredict"
+    echo "http://localhost:8080/v1/watson.runtime.nlp.v1/NlpService/ClassificationPredict"
     echo ""
     echo "$RESULT"
     echo ""
