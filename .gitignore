@@ -8,13 +8,14 @@ code/app/models/emsemble_model/tf_idf_model
 code/app/models/emsemble_model/tf_idf_svm_model
 code/app/models/emsemble_model/use_model
 code/app/models/custom_model/
+code/tmpmodel/ensemble_model_old
+code/tmpmodel/ensemble_model
 
 code/client-env
 code/model-manifest.csv
 code/helm_setup/custom_config.json
 code/helm_setup/charts/watson-nlp-custom/values.yaml
 code/helm_setup/.env
-code/tmpmodel/ensemble_model
 code/app/models/ensemble_model/tf_idf_model/config.yml
 code/app/models/ensemble_model/cnn_model/config.yml
 code/app/models/ensemble_model/config.yml
@@ -33,3 +34,4 @@ code/app/models/ensemble_model/tf_idf_svm_model/config.yml
 code/app/models/ensemble_model/tf_idf_model/artifacts/tfidf_vectorizer.pkl
 code/app/models/ensemble_model/syntax_model/config.yml
 code/app/models/ensemble_model/stopwords/artifacts/stopwords.txt
+

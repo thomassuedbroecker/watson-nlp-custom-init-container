@@ -163,7 +163,7 @@ docker inspect watson-nlp_ensemble_model:1.0.0
 ...
 ```
 
-### Step 7: Start the container locally
+### Step 7: Start the model container locally
 
 ```sh
 export CONTAINER_NAME=verify-model
