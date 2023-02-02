@@ -1,6 +1,6 @@
-# Create an init container with a custom model
+# Create an [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) with a custom model
 
-This project does show how to create an init container with a custom model for `Watson NLP for Embed` and upload the container to IBM Cloud container registry.
+This project does show how to create an [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) with a custom model for `Watson NLP for Embed` and upload the container to IBM Cloud container registry.
 
 The project reuses information from the tutorial [_`Serve a custom model on a Kubernetes or Red Hat OpenShift cluster`_](https://developer.ibm.com/tutorials/serve-custom-models-on-kubernetes-or-openshift/).
 
@@ -8,17 +8,17 @@ First let us resume how you can add models to `Watson NLP for Embed` runtime con
 
 1. You can build a `Watson NLP for Embed` runtime container including the models. [(Example gif)](https://suedbroecker.files.wordpress.com/2022/12/watson-nlp-ce-01.gif?w=736&zoom=2) ([direct copy of the models](https://github.com/thomassuedbroecker/watson-nlp-example-code-engine/blob/main/code/Dockerfile) or [multistage build](https://github.com/thomassuedbroecker/watson-nlp-example-code-engine/blob/main/code/Multistage.Dockerfile))
 2. You can run a `Watson NLP for Embed` runtime and load models from a mounted location (load from Docker volumes). [(Example gif)](https://suedbroecker.files.wordpress.com/2022/12/watson-nlp-07-1.gif?w=756&zoom=2)
-3. You can run a `Watson NLP for Embed` runtime and load the models with init containers. [Example image](https://suedbroecker.files.wordpress.com/2023/01/watson-nlp-03.png)
+3. You can run a `Watson NLP for Embed` runtime and load the models with [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)s. [Example image](https://suedbroecker.files.wordpress.com/2023/01/watson-nlp-03.png)
 4. Serve the model for [KServe](https://suedbroecker.net/2023/01/17/run-watson-nlp-for-embed-in-a-kserve-modelmesh-serving-environment-on-an-ibm-cloud-kubernetes-cluster-in-a-vpc-environment/). [(Example gif)](https://suedbroecker.files.wordpress.com/2023/01/watson-nlp-kserve-03.gif?w=756&zoom=2)
 
 
-> And now we are going build a `custom model container image` you can use as an init container!
+> And now we are going build a `custom model container image` you can use as an [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)!
 
 The image below shows the `Architecture reference custom models` for the tutorial [Serve a custom model on a Kubernetes or Red Hat OpenShift cluster](https://developer.ibm.com/developer/default/tutorials/serve-custom-models-on-kubernetes-or-openshift)
 
 ![`Architecture reference custom models`](https://developer.ibm.com/developer/default/tutorials/serve-custom-models-on-kubernetes-or-openshift/images/ref-arch-custom-models.png)
 
-## Create an init container model image
+## Create an [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) model image
 
 We will build a `model container image` with the [`ibm-watson-embed-model-builder`](https://github.com/IBM/ibm-watson-embed-model-builder) python library. This container image will contain our `custom model`, downloaded from Watson Studio.
 
@@ -231,8 +231,8 @@ sh deploy-watson-nlp-custom-to-kubernetes.sh
 **Automation steps of the bash script:**
 
 1. [Log on to IBM Cloud.](https://github.com/thomassuedbroecker/watson-nlp-custom-init-container/blob/main/code/helm_setup/deploy-watson-nlp-custom-to-kubernetes.sh#L23)
-2. [Configure the IBM Cloud registry and and a namespace if needed.](https://github.com/thomassuedbroecker/watson-nlp-custom-init-container/blob/main/code/helm_setup/deploy-watson-nlp-custom-to-kubernetes.sh#L36)
-3. [Change the `tag` of the custom container image and  `upload` custom image to IBM Cloud registry container registry.](https://github.com/thomassuedbroecker/watson-nlp-custom-init-container/blob/main/code/helm_setup/deploy-watson-nlp-custom-to-kubernetes.sh#L49)
+2. [Configure the IBM Cloud registry and a namespace, if needed.](https://github.com/thomassuedbroecker/watson-nlp-custom-init-container/blob/main/code/helm_setup/deploy-watson-nlp-custom-to-kubernetes.sh#L36)
+3. [Change the `tag` of the custom container image and  `upload` the custom image to the IBM Cloud registry container registry.](https://github.com/thomassuedbroecker/watson-nlp-custom-init-container/blob/main/code/helm_setup/deploy-watson-nlp-custom-to-kubernetes.sh#L49)
 4. [Create the `Docker config file` needed to create a pull secret for the custom container and the runtime container.](https://github.com/thomassuedbroecker/watson-nlp-custom-init-container/blob/main/code/helm_setup/deploy-watson-nlp-custom-to-kubernetes.sh#L70) ([Docker config.json file template](https://github.com/thomassuedbroecker/watson-nlp-custom-init-container/blob/main/code/helm_setup/custom_config.json_template))
 5. [Connect the Kubernetes Cluster](https://github.com/thomassuedbroecker/watson-nlp-custom-init-container/blob/main/code/helm_setup/deploy-watson-nlp-custom-to-kubernetes.sh#L58)
 6. [Install `Helm Chart`](https://github.com/thomassuedbroecker/watson-nlp-custom-init-container/blob/main/code/helm_setup/deploy-watson-nlp-custom-to-kubernetes.sh#L93)
