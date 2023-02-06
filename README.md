@@ -67,17 +67,15 @@ client-env
 
 If you don't have a created model you can create one by following this blog post [`Watson NLP for Embed customize a classification model and use it on your local machine`](https://suedbroecker.net/2023/01/26/watson-nlp-for-embed-customize-a-classification-model-and-use-it-on-your-local-machine/).
 
-### Step 4: Unzip your custom model
+### Step 4: Save the custom model 
 
 ```sh
 export TMP_HOME=$(pwd)
-export MODELFILE_NAME=ensemble_model
-
-cd code/app/models
-mkdir $MODELFILE_NAME
+export MODELFILE_NAME=ensemble_model.zip
 
 cd $TMP_HOME/code/tmpmodel
-unzip $MODELFILE_NAME -d $TMP_HOME/code/app/models/$MODELFILE_NAME/
+cp $MODELFILE_NAME $TMP_HOME/code/app/models/
+
 cd $TMP_HOME
 ```
 
@@ -177,12 +175,7 @@ docker run -it --name "$CONTAINER_NAME" "$CONTAINER_IMAGE" /bin/bash
 
 ```sh
 Archive:  /app/model.zip
-  ...
-  inflating: cnn_model/artifacts/model.h5  
-  inflating: cnn_model/config.yml    
-  inflating: config.yml              
-   creating: ensemble_model/
-  inflating: ensemble_model/config.yml 
+  inflating: config.yml    
   ... 
 ```
 
@@ -194,7 +187,6 @@ We are using in this section from IBM Cloud:
 
 * An existing [IBM Cloud Kubernetes cluster](https://www.ibm.com/cloud/kubernetes-service) 
 * The [IBM Cloud Container Registry](https://www.ibm.com/cloud/container-registry)
-
 
 
 ### Step 1: Navigate to the Helm setup

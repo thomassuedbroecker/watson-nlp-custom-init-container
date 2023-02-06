@@ -16,6 +16,7 @@ spec:
       initContainers:
       - name: custom-model
         image: {{ .Values.watson_nlp_custom_model }}
+        imagePullPolicy: Always
         volumeMounts:
         - name: model-directory
           mountPath: "/app/models"
@@ -33,6 +34,7 @@ spec:
       containers: 
       - name: watson-nlp-custom 
         image: {{ .Values.watson_runtime_image }}
+        imagePullPolicy: Always
         env:
         - name: ACCEPT_LICENSE
           value: "true"
