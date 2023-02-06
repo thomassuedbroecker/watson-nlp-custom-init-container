@@ -69,6 +69,10 @@ If you don't have a created model you can create one by following this blog post
 
 ### Step 4: Save the custom model 
 
+[Ensure you follow the steps in the read here](https://github.com/thomassuedbroecker/watson-nlp-custom-init-container/blob/main/code/tmpmodel/YOUR_MODEL.md)
+
+Your `model archive file` must have the file extension `.zip`.
+
 ```sh
 export TMP_HOME=$(pwd)
 export MODELFILE_NAME=ensemble_model.zip

@@ -2,7 +2,7 @@
 
 Yon need to create or download a custom model and save the model in this folder.
 
-Your archive file must have the file extension `.zip`.
+Your `model archive file` must have the file extension `.zip`.
 
 Example:
 * `ensemble_model` -> `ensemble_model.zip`
