@@ -14,7 +14,7 @@ First let us resume how you can add models to `Watson NLP for Embed` runtime con
 
 > And now we are going build a `custom model container image` you can use as an [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)!
 
-The image below shows the `Architecture reference custom models` for the tutorial [Serve a custom model on a Kubernetes or Red Hat OpenShift cluster](https://developer.ibm.com/developer/default/tutorials/serve-custom-models-on-kubernetes-or-openshift)
+The image below shows the `Architecture reference custom models` for the tutorial [Serve a custom model on a Kubernetes or Red Hat OpenShift cluster](https://developer.ibm.com/tutorials/serve-custom-models-on-kubernetes-or-openshift/)
 
 ![`Architecture reference custom models`](https://developer.ibm.com/developer/default/tutorials/serve-custom-models-on-kubernetes-or-openshift/images/ref-arch-custom-models.png)
 

@@ -324,4 +324,4 @@ verifyWatsonNLPContainer
 
 verifyWatsonNLPLoadbalancer
 
-#uninstallHelmChart
+uninstallHelmChart
