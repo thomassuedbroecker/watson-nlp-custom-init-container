@@ -184,7 +184,7 @@ Archive:  /app/model.zip
 
 ## Deploy to Kubernetes
 
-We will the deploy custom [Watson NLP for Embed](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home) model with a preconfigured [Helm chart](https://github.com/thomassuedbroecker/watson-nlp-custom-init-container/blob/main/code/helm_setup/charts/watson-nlp-custom/Chart.yaml) at an existing Kubernetes Cluster.
+We will deploy the **custom [Watson NLP for Embed](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home) model** with a preconfigured [Helm chart](https://github.com/thomassuedbroecker/watson-nlp-custom-init-container/blob/main/code/helm_setup/charts/watson-nlp-custom/Chart.yaml) in this project for an existing Kubernetes Cluster.
 
 We are using in this section from IBM Cloud:
 
