@@ -1,6 +1,6 @@
 # Save your custom model here
 
-Yon need to create or download a custom model and save the model in this folder.
+You need to create or download a custom model and save the model in this folder.
 
 Your `model archive file` must have the file extension `.zip`.
 
