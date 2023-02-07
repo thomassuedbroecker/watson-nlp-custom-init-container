@@ -126,7 +126,7 @@ function verifyWatsonNLPContainer () {
     echo "Pod: $POD"
     # Needs to be verifed
     # COMMAND='''curl -X POST "http://localhost:8080/v1/watson.runtime.nlp.v1/NlpService/SyntaxPredict" -H "accept: application/json" -H "grpc-metadata-mm-model-id: syntax_izumo_lang_en_stock" -H "content-type: application/json" -d " { \"rawDocument\": { \"text\": \"It is so easy to embed Watson NLP in application. Very cool\" }}"'''
-    RESULT=$(kubectl exec --stdin --tty $POD --container $FIND --     curl -s -X POST "http://$EXTERNAL_IP:8080/v1/watson.runtime.nlp.v1/NlpService/ClassificationPredict" -H "accept: application/json" -H "grpc-metadata-mm-model-id: ensemble_model" -H "content-type: application/json" -d "{ \"rawDocument\": { \"text\": \"The credit card doesn t work, and I look at the savings, but I need more money to spend.\" }}")    
+    RESULT=$(kubectl exec --stdin --tty $POD --container $FIND --     curl -s -X POST "http://localhost:8080/v1/watson.runtime.nlp.v1/NlpService/ClassificationPredict" -H "accept: application/json" -H "grpc-metadata-mm-model-id: ensemble_model" -H "content-type: application/json" -d "{ \"rawDocument\": { \"text\": \"The credit card doesn t work, and I look at the savings, but I need more money to spend.\" }}")    
     echo ""
     echo "Result of the Watson NLP API request:"
     echo "http://localhost:8080/v1/watson.runtime.nlp.v1/NlpService/ClassificationPredict"
