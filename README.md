@@ -29,7 +29,7 @@ We will build a `model container image` with the [`ibm-watson-embed-model-builde
 * Step 6: Create the custom model container image
 * Step 7: Verify the created model container image
 
-> Note: Here is the [IBM Watson Natural Language Processing Library for Embed API documentation](https://developer.ibm.com/apis/catalog/embeddableai--watson-natural-language-processing-apis/api/API--embeddableai--watson-natural-language-processing-apis#ClassificationPredict)
+> Note: Here is the [IBM Watson Natural Language Processing Library for Embed **API documentation**](https://developer.ibm.com/apis/catalog/embeddableai--watson-natural-language-processing-apis/api/API--embeddableai--watson-natural-language-processing-apis#ClassificationPredict)
 
 ### Step 1: Clone the repository
 
