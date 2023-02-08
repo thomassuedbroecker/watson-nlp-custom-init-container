@@ -95,7 +95,7 @@ export CUSTOM_MODEL_LOCATION=./app/models
 export CUSTOM_TAG=1.0.0
 python3 -m watson_embed_model_packager setup \
     --library-version watson_nlp:3.2.0 \
-    --image-tag 1.0.0 \
+    --image-tag $CUSTOM_TAG \
     --local-model-dir $CUSTOM_MODEL_LOCATION \
     --output-csv model-manifest.csv
 ls
