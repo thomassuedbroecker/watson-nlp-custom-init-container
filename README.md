@@ -1,4 +1,4 @@
-# Create an [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) with a custom model
+# Create a model init container image for `Watson NLP for Embed`
 
 This project shows how to :
 
