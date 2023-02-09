@@ -3,7 +3,7 @@
 This project shows how to :
 
 * ... **create** a model [_init container_](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) with a custom model for [`Watson NLP for Embed`](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home).
-* ... **upload** the `model init container` to the [IBM Cloud container registry](https://www.ibm.com/cloud/container-registry).
+* ... **upload** the `model init container` to the [IBM Cloud Container Registry](https://www.ibm.com/cloud/container-registry).
 * ... **deploy** the `model init container` and the `Watson NLP runtime` to an [IBM Cloud Kubernetes Cluster](https://www.ibm.com/cloud/kubernetes-service).
 * ... **test** `Watson NLP runtime` with the loaded model using the `REST API`.
 
@@ -11,7 +11,7 @@ Therefor the project reuses information from the IBM Developer tutorial [_`Serve
 
 First let us resume how you can add models to [`Watson NLP for Embed`](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home) runtime container.
 
-1. You can build a [`Watson NLP for Embed`](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home) runtime container image including the models. You usually use this for testing at local or serverless environments.[(Example gif)](https://suedbroecker.files.wordpress.com/2022/12/watson-nlp-ce-01.gif?w=736&zoom=2) ([direct copy of the models](https://github.com/thomassuedbroecker/watson-nlp-example-code-engine/blob/main/code/Dockerfile)
+1. You can build a [`Watson NLP for Embed`](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home) runtime container image including the models. You usually use this for testing at local or serverless environments.[(Example gif)](https://suedbroecker.files.wordpress.com/2022/12/watson-nlp-ce-01.gif?w=736&zoom=2) ([example Dockerfile for direct copy of the models](https://github.com/thomassuedbroecker/watson-nlp-example-code-engine/blob/main/code/Dockerfile)
 2. You can build a [`Watson NLP for Embed`](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home) runtime container image including the models using a [multistage build](https://github.com/thomassuedbroecker/watson-nlp-example-code-engine/blob/main/code/Multistage.Dockerfile) with pretrained model container images.
 2. You can run a [`Watson NLP for Embed`](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home) runtime and load models from a mounted location (load from Docker volumes). You usually use this for local testing. [(Example gif)](https://suedbroecker.files.wordpress.com/2022/12/watson-nlp-07-1.gif?w=756&zoom=2)
 3. You can run a [`Watson NLP for Embed`](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home) runtime and load the models with [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)s. [Example image](https://suedbroecker.files.wordpress.com/2023/01/watson-nlp-03.png). You usually use this for Kubernetes deployments.
@@ -27,18 +27,18 @@ In our case the container must provide a model which will be loaded be load from
 
 The image below is from the tutorial [Serve a custom model on a Kubernetes or Red Hat OpenShift cluster](https://developer.ibm.com/tutorials/serve-custom-models-on-kubernetes-or-openshift/) and shows the `Architecture reference custom models` and is a bit customized.
 
-In context to our project we can map the steps like this:
+In context to our project, we can map the steps like this:
 
 1. In [`Watson Studio`](https://cloud.ibm.com/catalog/services/watson-studio) we created the model. For example we followed the steps in the blog post [`Watson NLP for Embed customize a classification model and use it on your local machine`](https://suedbroecker.net/2023/01/26/watson-nlp-for-embed-customize-a-classification-model-and-use-it-on-your-local-machine/)
 2. In this project we will create a `model init container image` on the local machine
-3. In the bash script automation we will:
+3. In the bash script automation, we will:
     
-    * Upload the `model init container image` to the IBM CLoud registry
+    * Upload the `model init container image` to the `IBM Cloud Container Registry`
     * Deploy `Watson NLP runtime` with helm.
     
     Inside the pod (3,4,5):
 
-    * (4) The `model init container` will save the containing model in an volume on the pod. 
+    * (4) The `model init container` will save the containing model in a volume on the pod. 
     * (5) The `Watson NLP runtime container` will load the model from the pod
     * Invoke the `Watson NLP` REST API to test the loaded model.
 
@@ -101,7 +101,7 @@ If you don't have a created model you can create one by following this blog post
 
 [Ensure you followed the steps in the `readme.md` here in this project.](https://github.com/thomassuedbroecker/watson-nlp-custom-init-container/blob/main/code/tmpmodel/YOUR_MODEL.md)
 
-Your copyed `model archive file` must have the file extension `.zip`.
+Your copied `model archive file` must have the file extension `.zip`.
 
 ```sh
 export TMP_HOME=$(pwd)
@@ -448,7 +448,7 @@ uninstallHelmChart
 Press any key to move on with UNINSTALL:
 ```
 
-Now you can deside if you want to uninstall the confguration directly.
+Now you can decide if you want to uninstall the configuration directly.
 
 ```sh
 release "watson-nlp-custom" uninstalled
