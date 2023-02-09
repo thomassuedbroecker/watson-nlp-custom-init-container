@@ -1,23 +1,27 @@
 # Create an [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) with a custom model
 
-This project does show how to create an [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) with a custom model for `Watson NLP for Embed` and upload the container to IBM Cloud container registry.
+This project does show how to :
 
-The project reuses information from the tutorial [_`Serve a custom model on a Kubernetes or Red Hat OpenShift cluster`_](https://developer.ibm.com/tutorials/serve-custom-models-on-kubernetes-or-openshift/).
+* ... **create** a model [_init container_](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) with a custom model for [`Watson NLP for Embed`](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home) 
+* ... **upload** the `model init container` to [IBM Cloud container registry](https://www.ibm.com/cloud/container-registry).
+* ... **deploy** the `model init container` to an [IBM Cloud Kubernetes Cluster](https://www.ibm.com/cloud/kubernetes-service)
 
-First let us resume how you can add models to `Watson NLP for Embed` runtime container.
+The project reuses information from the IBM Developer tutorial [_`Serve a custom model on a Kubernetes or Red Hat OpenShift cluster`_](https://developer.ibm.com/tutorials/serve-custom-models-on-kubernetes-or-openshift/).
 
-1. You can build a `Watson NLP for Embed` runtime container including the models. You usually use this for testing at local or serverless environments.[(Example gif)](https://suedbroecker.files.wordpress.com/2022/12/watson-nlp-ce-01.gif?w=736&zoom=2) ([direct copy of the models](https://github.com/thomassuedbroecker/watson-nlp-example-code-engine/blob/main/code/Dockerfile) or [multistage build](https://github.com/thomassuedbroecker/watson-nlp-example-code-engine/blob/main/code/Multistage.Dockerfile))
-2. You can run a `Watson NLP for Embed` runtime and load models from a mounted location (load from Docker volumes). You usually use this for local testing. [(Example gif)](https://suedbroecker.files.wordpress.com/2022/12/watson-nlp-07-1.gif?w=756&zoom=2)
-3. You can run a `Watson NLP for Embed` runtime and load the models with [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)s. [Example image](https://suedbroecker.files.wordpress.com/2023/01/watson-nlp-03.png). You usually use this for Kubernetes deployments.
+First let us resume how you can add models to [`Watson NLP for Embed`](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home) runtime container.
+
+1. You can build a [`Watson NLP for Embed`](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home) runtime container including the models. You usually use this for testing at local or serverless environments.[(Example gif)](https://suedbroecker.files.wordpress.com/2022/12/watson-nlp-ce-01.gif?w=736&zoom=2) ([direct copy of the models](https://github.com/thomassuedbroecker/watson-nlp-example-code-engine/blob/main/code/Dockerfile) or [multistage build](https://github.com/thomassuedbroecker/watson-nlp-example-code-engine/blob/main/code/Multistage.Dockerfile))
+2. You can run a [`Watson NLP for Embed`](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home) runtime and load models from a mounted location (load from Docker volumes). You usually use this for local testing. [(Example gif)](https://suedbroecker.files.wordpress.com/2022/12/watson-nlp-07-1.gif?w=756&zoom=2)
+3. You can run a [`Watson NLP for Embed`](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home) runtime and load the models with [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)s. [Example image](https://suedbroecker.files.wordpress.com/2023/01/watson-nlp-03.png). You usually use this for Kubernetes deployments.
 4. Serve the model from [KServe](https://suedbroecker.net/2023/01/17/run-watson-nlp-for-embed-in-a-kserve-modelmesh-serving-environment-on-an-ibm-cloud-kubernetes-cluster-in-a-vpc-environment/). [(Example gif)](https://suedbroecker.files.wordpress.com/2023/01/watson-nlp-kserve-03.gif?w=756&zoom=2). This is the best production approach, from my perspective.
 
 > And now we are going build a `custom model container image` you can use as an [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)!
 
-The image below shows the `Architecture reference custom models` for the tutorial [Serve a custom model on a Kubernetes or Red Hat OpenShift cluster](https://developer.ibm.com/tutorials/serve-custom-models-on-kubernetes-or-openshift/)
+The image below shows the `Architecture reference custom models` for the tutorial [Serve a custom model on a Kubernetes or Red Hat OpenShift cluster](https://developer.ibm.com/tutorials/serve-custom-models-on-kubernetes-or-openshift/).
 
 ![`Architecture reference custom models`](https://developer.ibm.com/developer/default/tutorials/serve-custom-models-on-kubernetes-or-openshift/images/ref-arch-custom-models.png)
 
-## Create an [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) model image
+## 1. Create an [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) model image
 
 We will build a `model container image` with the [`ibm-watson-embed-model-builder`](https://github.com/IBM/ibm-watson-embed-model-builder) python library. This container image will contain our `custom model`, downloaded from Watson Studio.
 
@@ -244,4 +248,176 @@ sh deploy-watson-nlp-custom-to-kubernetes.sh
 3. [Cluster service](https://github.com/thomassuedbroecker/watson-nlp-custom-init-container/blob/main/code/helm_setup/charts/watson-nlp-custom/templates/service-cluster-ip.yaml)
 4. [Load balancer service](https://github.com/thomassuedbroecker/watson-nlp-custom-init-container/blob/main/code/helm_setup/charts/watson-nlp-custom/templates/service-loadbalancer.yaml)
 5. [Values file for the `Helm templates`](https://github.com/thomassuedbroecker/watson-nlp-custom-init-container/blob/main/code/helm_setup/custom_config.json_template)
+
+* Example interactive output:
+
+```sh
+*********************
+loginIBMCloud
+*********************
+
+API endpoint: https://cloud.ibm.com
+Region: us-east
+Authenticating...
+OK
+
+...
+
+# ******
+# Configure IBM Cloud Registry
+# ******
+
+The region is set to 'us-south', the registry is 'us.icr.io'.
+...
+a4c04ef9f22e: Layer already exists 
+1.0.0: digest: sha256:7dad37c2eb633eb569df6617c6895d39a9741fe5be2b0991c93f9b3a4acd7510 size: 1994
+
+*********************
+createDockerCustomConfigFile
+*********************
+
+- custom_config.json
+IBM_ENTITLEMENT_SECRET: 
+...
+- charts/values.yaml
+Set values:
+- us.icr.io/custom-watson-nlp-tsued/watson-nlp_ensemble_model:1.0.0
+...
+
+*********************
+connectToCluster
+*********************
+
+OK
+...
+
+*********************
+installHelmChart
+*********************
+
+...
+
+1 chart(s) linted, 0 chart(s) failed
+NAME: watson-nlp-custom
+LAST DEPLOYED: Thu Feb  9 19:55:14 2023
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+
+*********************
+verifyDeploment
+*********************
+
+
+------------------------------------------------------------------------
+Check for (watson-nlp-custom)
+(1) from max retrys (4)
+Status: watson-nlp-custom
+2023-02-09 12:55:16 Status: watson-nlp-custom is created
+------------------------------------------------------------------------
+
+*********************
+verifyPod could take 10 min
+*********************
+
+
+------------------------------------------------------------------------
+Check for (watson-nlp-custom)
+(1) from max retrys (10)
+Status: 0/1
+2023-02-09 19:55:16 Status: watson-nlp-custom(0/1)
+------------------------------------------------------------------------
+(2) from max retrys (10)
+Status: 1/1
+2023-02-09 19:56:17 Status: watson-nlp-custom is created
+------------------------------------------------------------------------
+
+*********************
+verifyWatsonNLPContainer
+*********************
+
+Pod: watson-nlp-custom-85b6d4c664-snkx6
+
+Result of the Watson NLP API request:
+http://localhost:8080/v1/watson.runtime.nlp.v1/NlpService/ClassificationPredict
+
+{"classes":[{"className":"Credit card or prepaid card","confidence":0.61427313},{"className":"Credit reporting, credit repair services, or other personal consumer reports","confidence":0.104456775},{"className":"Checking or savings account","confidence":0.1030437},{"className":"Debt collection","confidence":0.08048885},{"className":"Mortgage","confidence":0.0071709333}],"producerId":{"name":"Voting based Ensemble","version":"0.0.1"}}
+
+Verify the running pod on your cluster.
+
+Press any key to move on:
+```
+
+
+```sh
+...
+NAME                                 READY   STATUS    RESTARTS   AGE
+watson-nlp-custom-85b6d4c664-snkx6   1/1     Running   0          66s
+Verify in the deployment in the Kubernetes dashboard.
+
+Press any key to move on:
+...
+```
+
+
+
+
+*********************
+verifyWatsonNLP_loadbalancer
+this could take up to 10 min
+*********************
+
+
+*********************
+verifyLoadbalancer
+*********************
+
+...
+------------------------------------------------------------------------
+Status: 52.XXX.XXX.XXXX
+2023-02-09 20:06:31 Status: watson-nlp-custom-vpc-nlb is created (52.XXX.XXX.XXXX)
+------------------------------------------------------------------------
+EXTERNAL_IP: 52.XXX.XXX.XXXX
+Verify invocation of Watson NLP API from the local machine:
+{
+  "classes": [
+    {
+      "className": "Credit card or prepaid card",
+      "confidence": 0.59203154
+    },
+    {
+      "className": "Checking or savings account",
+      "confidence": 0.10723788
+    },
+    {
+      "className": "Credit reporting, credit repair services, or other personal consumer reports",
+      "confidence": 0.107137166
+    },
+    {
+      "className": "Debt collection",
+      "confidence": 0.08883385
+    },
+    {
+      "className": "Mortgage",
+      "confidence": 0.008399018
+    }
+  ],
+  "producerId": {
+    "name": "Voting based Ensemble",
+    "version": "0.0.1"
+  }
+}
+
+*********************
+uninstallHelmChart
+*********************
+
+Press any key to move on with UNINSTALL:
+```
+
+Now you can deside if you want to uninstall the confguration directly.
+
+```sh
+```
 
