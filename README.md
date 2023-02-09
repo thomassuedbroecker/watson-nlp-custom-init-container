@@ -2,28 +2,49 @@
 
 This project does show how to :
 
-* ... **create** a model [_init container_](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) with a custom model for [`Watson NLP for Embed`](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home) 
+* ... **create** a model [_init container_](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) with a custom model for [`Watson NLP for Embed`](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home).
 * ... **upload** the `model init container` to [IBM Cloud container registry](https://www.ibm.com/cloud/container-registry).
-* ... **deploy** the `model init container` to an [IBM Cloud Kubernetes Cluster](https://www.ibm.com/cloud/kubernetes-service)
+* ... **deploy** the `model init container` and the `Watson NLP runtime` to an [IBM Cloud Kubernetes Cluster](https://www.ibm.com/cloud/kubernetes-service).
+* ... **test** with uploaded model with a `Watson NLP` REST API invokation.
 
-The project reuses information from the IBM Developer tutorial [_`Serve a custom model on a Kubernetes or Red Hat OpenShift cluster`_](https://developer.ibm.com/tutorials/serve-custom-models-on-kubernetes-or-openshift/).
+Therefor the project reuses information from the IBM Developer tutorial [_`Serve a custom model on a Kubernetes or Red Hat OpenShift cluster`_](https://developer.ibm.com/tutorials/serve-custom-models-on-kubernetes-or-openshift/).
 
 First let us resume how you can add models to [`Watson NLP for Embed`](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home) runtime container.
 
-1. You can build a [`Watson NLP for Embed`](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home) runtime container including the models. You usually use this for testing at local or serverless environments.[(Example gif)](https://suedbroecker.files.wordpress.com/2022/12/watson-nlp-ce-01.gif?w=736&zoom=2) ([direct copy of the models](https://github.com/thomassuedbroecker/watson-nlp-example-code-engine/blob/main/code/Dockerfile) or [multistage build](https://github.com/thomassuedbroecker/watson-nlp-example-code-engine/blob/main/code/Multistage.Dockerfile))
+1. You can build a [`Watson NLP for Embed`](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home) runtime container image including the models. You usually use this for testing at local or serverless environments.[(Example gif)](https://suedbroecker.files.wordpress.com/2022/12/watson-nlp-ce-01.gif?w=736&zoom=2) ([direct copy of the models](https://github.com/thomassuedbroecker/watson-nlp-example-code-engine/blob/main/code/Dockerfile)
+2. You can build a [`Watson NLP for Embed`](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home) runtime container image including the models using a [multistage build](https://github.com/thomassuedbroecker/watson-nlp-example-code-engine/blob/main/code/Multistage.Dockerfile) with pretrained model container images.
 2. You can run a [`Watson NLP for Embed`](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home) runtime and load models from a mounted location (load from Docker volumes). You usually use this for local testing. [(Example gif)](https://suedbroecker.files.wordpress.com/2022/12/watson-nlp-07-1.gif?w=756&zoom=2)
 3. You can run a [`Watson NLP for Embed`](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home) runtime and load the models with [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)s. [Example image](https://suedbroecker.files.wordpress.com/2023/01/watson-nlp-03.png). You usually use this for Kubernetes deployments.
-4. Serve the model from [KServe](https://suedbroecker.net/2023/01/17/run-watson-nlp-for-embed-in-a-kserve-modelmesh-serving-environment-on-an-ibm-cloud-kubernetes-cluster-in-a-vpc-environment/). [(Example gif)](https://suedbroecker.files.wordpress.com/2023/01/watson-nlp-kserve-03.gif?w=756&zoom=2). This is the best production approach, from my perspective.
+4. You can serve a model from [KServe](https://suedbroecker.net/2023/01/17/run-watson-nlp-for-embed-in-a-kserve-modelmesh-serving-environment-on-an-ibm-cloud-kubernetes-cluster-in-a-vpc-environment/). [(Example gif)](https://suedbroecker.files.wordpress.com/2023/01/watson-nlp-kserve-03.gif?w=756&zoom=2). This is the best production approach, from my perspective.
 
 > And now we are going build a `custom model container image` you can use as an [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)!
 
-The image below shows the `Architecture reference custom models` for the tutorial [Serve a custom model on a Kubernetes or Red Hat OpenShift cluster](https://developer.ibm.com/tutorials/serve-custom-models-on-kubernetes-or-openshift/).
+### Architectural overview
 
-![`Architecture reference custom models`](https://developer.ibm.com/developer/default/tutorials/serve-custom-models-on-kubernetes-or-openshift/images/ref-arch-custom-models.png)
+The image below is from the tutorial [Serve a custom model on a Kubernetes or Red Hat OpenShift cluster](https://developer.ibm.com/tutorials/serve-custom-models-on-kubernetes-or-openshift/) and shows the `Architecture reference custom models` and is a bit customized.
+
+In context to our project we can map the steps like this:
+
+1. In [`Watson Studio`](https://cloud.ibm.com/catalog/services/watson-studio) we created the model. For example we followed the steps in the blog post [`Watson NLP for Embed customize a classification model and use it on your local machine`](https://suedbroecker.net/2023/01/26/watson-nlp-for-embed-customize-a-classification-model-and-use-it-on-your-local-machine/)
+2. In this project we will create `model init container image` on the local machine
+3. In the bash script automation we will:
+    
+    * Upload the `model init container image` to the IBM CLoud registry
+    * Deploy `Watson NLP runtime` with helm.
+    
+    Inside the pod (3,4,5):
+
+    * (4) The `model init container` will save the containing model in an volume on the pod 
+    * (5) The `Watson NLP runtime container` will load the model from the pod
+    * Invoke the `Watson NLP` REST API to verify the loaded model
+
+![`Architecture reference custom models`](images/image-5.png)
+
+[Images Source](https://developer.ibm.com/developer/default/tutorials/serve-custom-models-on-kubernetes-or-openshift/images/ref-arch-custom-models.png)
 
 ## 1. Create an [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) model image
 
-We will build a `model container image` with the [`ibm-watson-embed-model-builder`](https://github.com/IBM/ibm-watson-embed-model-builder) python library. This container image will contain our `custom model`, downloaded from Watson Studio.
+We will build a `model init container image` with the [`ibm-watson-embed-model-builder`](https://github.com/IBM/ibm-watson-embed-model-builder) python library. This container image will contain our `custom model`, downloaded from Watson Studio.
 
 * Step 1: Clone the repository
 * Step 2: Prepare python environment on your local machine
@@ -349,6 +370,10 @@ Verify the running pod on your cluster.
 Press any key to move on:
 ```
 
+Now your IBM Cloud UI will be opened again and you can open the Kubernetes Dashboard if you want to.
+
+![](/images/image-7.png)
+
 
 ```sh
 ...
@@ -362,7 +387,7 @@ Press any key to move on:
 
 
 
-
+```sh
 *********************
 verifyWatsonNLP_loadbalancer
 this could take up to 10 min
@@ -419,5 +444,6 @@ Press any key to move on with UNINSTALL:
 Now you can deside if you want to uninstall the confguration directly.
 
 ```sh
+
 ```
 
