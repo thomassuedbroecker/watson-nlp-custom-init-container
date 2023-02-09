@@ -17,7 +17,7 @@ First let us resume how you can add models to [`Watson NLP for Embed`](https://w
 3. You can run a [`Watson NLP for Embed`](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home) runtime and load the models with [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)s. [Example image](https://suedbroecker.files.wordpress.com/2023/01/watson-nlp-03.png). You usually use this for Kubernetes deployments.
 4. You can serve a model from [KServe](https://suedbroecker.net/2023/01/17/run-watson-nlp-for-embed-in-a-kserve-modelmesh-serving-environment-on-an-ibm-cloud-kubernetes-cluster-in-a-vpc-environment/). [(Example gif)](https://suedbroecker.files.wordpress.com/2023/01/watson-nlp-kserve-03.gif?w=756&zoom=2). This is the best production approach, from my perspective.
 
-> And now we are going build a `custom model container image` you can use as an [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)!
+> And now we are going to build a `custom model container image` you can use as an [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)!
 
 ### Architectural overview
 
@@ -30,7 +30,7 @@ The image below is from the tutorial [Serve a custom model on a Kubernetes or Re
 In context to our project we can map the steps like this:
 
 1. In [`Watson Studio`](https://cloud.ibm.com/catalog/services/watson-studio) we created the model. For example we followed the steps in the blog post [`Watson NLP for Embed customize a classification model and use it on your local machine`](https://suedbroecker.net/2023/01/26/watson-nlp-for-embed-customize-a-classification-model-and-use-it-on-your-local-machine/)
-2. In this project we will create `model init container image` on the local machine
+2. In this project we will create a `model init container image` on the local machine
 3. In the bash script automation we will:
     
     * Upload the `model init container image` to the IBM CLoud registry
@@ -38,9 +38,9 @@ In context to our project we can map the steps like this:
     
     Inside the pod (3,4,5):
 
-    * (4) The `model init container` will save the containing model in an volume on the pod 
+    * (4) The `model init container` will save the containing model in an volume on the pod. 
     * (5) The `Watson NLP runtime container` will load the model from the pod
-    * Invoke the `Watson NLP` REST API to verify the loaded model
+    * Invoke the `Watson NLP` REST API to test the loaded model.
 
 ![`Architecture reference custom models`](images/image-5.png)
 
