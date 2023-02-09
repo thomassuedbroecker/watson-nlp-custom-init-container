@@ -17,7 +17,7 @@ First let us resume how you can add models to [`Watson NLP for Embed`](https://w
 3. You can run a [`Watson NLP for Embed`](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home) runtime and load the models with [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)s. [Example image](https://suedbroecker.files.wordpress.com/2023/01/watson-nlp-03.png). You usually use this for Kubernetes deployments.
 4. You can serve a model from [KServe](https://suedbroecker.net/2023/01/17/run-watson-nlp-for-embed-in-a-kserve-modelmesh-serving-environment-on-an-ibm-cloud-kubernetes-cluster-in-a-vpc-environment/). [(Example gif)](https://suedbroecker.files.wordpress.com/2023/01/watson-nlp-kserve-03.gif?w=756&zoom=2). This is the best production approach, from my perspective.
 
-> And now we are going to build a `custom model container image` you can use as an [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)!
+> And now we are going to build a `custom model container image` we will use as an [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)!
 
 ### Architectural overview
 
