@@ -389,6 +389,9 @@ Press any key to move on:
 ...
 ```
 
+ You can verify the deployment in Kubernetes dashboard. 
+
+ ![](images/image-8.png)
 
 
 ```sh
@@ -448,6 +451,6 @@ Press any key to move on with UNINSTALL:
 Now you can deside if you want to uninstall the confguration directly.
 
 ```sh
-
+release "watson-nlp-custom" uninstalled
 ```
 
