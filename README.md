@@ -44,7 +44,7 @@ In context to our project we can map the steps like this:
 
 ![`Architecture reference custom models`](images/image-5.png)
 
-[Image wource](https://developer.ibm.com/developer/default/tutorials/serve-custom-models-on-kubernetes-or-openshift/images/ref-arch-custom-models.png)
+[Image source](https://developer.ibm.com/developer/default/tutorials/serve-custom-models-on-kubernetes-or-openshift/images/ref-arch-custom-models.png)
 
 ## 1. Create an [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) model image
 
