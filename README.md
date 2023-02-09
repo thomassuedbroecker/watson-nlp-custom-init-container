@@ -1,11 +1,11 @@
 # Create an [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) with a custom model
 
-This project does show how to :
+This project shows how to :
 
 * ... **create** a model [_init container_](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) with a custom model for [`Watson NLP for Embed`](https://www.ibm.com/docs/en/watson-libraries?topic=watson-natural-language-processing-library-embed-home).
-* ... **upload** the `model init container` to [IBM Cloud container registry](https://www.ibm.com/cloud/container-registry).
+* ... **upload** the `model init container` to the [IBM Cloud container registry](https://www.ibm.com/cloud/container-registry).
 * ... **deploy** the `model init container` and the `Watson NLP runtime` to an [IBM Cloud Kubernetes Cluster](https://www.ibm.com/cloud/kubernetes-service).
-* ... **test** with uploaded model with a `Watson NLP` REST API invokation.
+* ... **test** `Watson NLP runtime` with the loaded model using the `REST API`.
 
 Therefor the project reuses information from the IBM Developer tutorial [_`Serve a custom model on a Kubernetes or Red Hat OpenShift cluster`_](https://developer.ibm.com/tutorials/serve-custom-models-on-kubernetes-or-openshift/).
 
@@ -20,6 +20,10 @@ First let us resume how you can add models to [`Watson NLP for Embed`](https://w
 > And now we are going build a `custom model container image` you can use as an [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)!
 
 ### Architectural overview
+
+You should be aware that an [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) only runs once, because the job of an init container is to ensure the needed environment for the runtime container is available.
+In our case the container must provide a model which will be loaded be load from the runtime.
+
 
 The image below is from the tutorial [Serve a custom model on a Kubernetes or Red Hat OpenShift cluster](https://developer.ibm.com/tutorials/serve-custom-models-on-kubernetes-or-openshift/) and shows the `Architecture reference custom models` and is a bit customized.
 
@@ -40,7 +44,7 @@ In context to our project we can map the steps like this:
 
 ![`Architecture reference custom models`](images/image-5.png)
 
-[Images Source](https://developer.ibm.com/developer/default/tutorials/serve-custom-models-on-kubernetes-or-openshift/images/ref-arch-custom-models.png)
+[Image wource](https://developer.ibm.com/developer/default/tutorials/serve-custom-models-on-kubernetes-or-openshift/images/ref-arch-custom-models.png)
 
 ## 1. Create an [`init container`](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) model image
 
@@ -95,9 +99,9 @@ If you don't have a created model you can create one by following this blog post
 
 ### Step 4: Save the custom model 
 
-[Ensure you follow the steps in the `readme.md` here in this project.](https://github.com/thomassuedbroecker/watson-nlp-custom-init-container/blob/main/code/tmpmodel/YOUR_MODEL.md).
+[Ensure you followed the steps in the `readme.md` here in this project.](https://github.com/thomassuedbroecker/watson-nlp-custom-init-container/blob/main/code/tmpmodel/YOUR_MODEL.md)
 
-Your `model archive file` must have the file extension `.zip`.
+Your copyed `model archive file` must have the file extension `.zip`.
 
 ```sh
 export TMP_HOME=$(pwd)
@@ -111,7 +115,7 @@ cd $TMP_HOME
 
 ### Step 5: Prepare the custom model container image 
 
-This creates `model-manifest.csv` which contains the information to create the custom model container image.
+The `watson_embed_model_packager` creates a `model-manifest.csv` which contains the information how to package the custom model init container image.
 
 ```sh
 export TMP_HOME=$(pwd)
